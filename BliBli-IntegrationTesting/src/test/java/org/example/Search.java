@@ -4,23 +4,26 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.util.*;
 public class Search
 {
-    public void searchKeyword(WebDriver driver, String keyword) throws InterruptedException
+    public void searchKeyword(WebDriver driver, String keyword, WebDriverWait wait) throws InterruptedException
     {
+        Thread.sleep(2000);
         driver.findElement(By.xpath("//input[@class='b-ellipsis']")).click();
         driver.findElement(By.xpath("//input[@class='b-ellipsis']")).sendKeys(keyword);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='searchbox__search']")));
         Thread.sleep(2000);
     }
 
-    public void getSearchPage(WebDriver driver,String filter) throws InterruptedException
+    public void getSearchPage(WebDriver driver,String filter, JavascriptExecutor js, WebDriverWait wait) throws InterruptedException
     {
         driver.findElement(By.xpath("//button[@class='searchbox__search']")).click();
         Thread.sleep(5000);
-        JavascriptExecutor js = (JavascriptExecutor) driver;
 
-        WebElement popup1=driver.findElement(By.xpath("//button[@class='blu-btn b-secondary b-small']"));
         js.executeScript("document.getElementsByClassName('blu-btn b-secondary b-small')[0].scrollIntoView(true);");
         Thread.sleep(2000);
         List<WebElement> filters=driver.findElements(By.xpath("//label[@class='blu-chip b-secondary']"));
@@ -35,8 +38,7 @@ public class Search
                 break;
             }
         }
-        Thread.sleep(2000);
-        //label[@for='QUICK_blibli']
-        //driver.findElement(By.xpath("//button[@class='blu-btn b-secondary b-small']")).click();
+        //Thread.sleep(4000);
+
     }
 }
